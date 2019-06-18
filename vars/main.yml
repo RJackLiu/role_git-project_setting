@@ -1,5 +1,31 @@
 ---
 # vars file for role_git-project_setting
-project_folder_path_in_role: []
-project_folder_path_n_in_role: []
-folder_create_force: no
+project_folder_path_in_role:           # <-- u should change it or replace with [].
+- path: '/path/to/yourProjectName01'  
+  url: 'https://github.com/owner/yourPojectName01.git' 
+# - path: '/path/to/yourProjectName02' # <-- u can create more if u want.
+#   url: 'git@github.com:owner/yourProjectName02.git'
+
+project_folder_path_n_in_role:         # <-- u should change it or replace with [].
+- path: /path/to/yourProjectName03    
+  url: 'https://github.com/owner/yourPojectName03.git' 
+# - path: /path/to/yourProjectName04   # <-- u can create more if u want.
+#   url: 'git@github.com:owner/yourProjectName04.git'
+
+folder_create_force: false    # if true, ansible will cover project paths whether is existed or not.
+
+remote_project_sync: true     # if false, git project will not be synchronized with remote repository.
+
+git_configuration:            # <-- u should change it or replace with [].
+- name: 'user.name'
+  scope: global               #choices: local / global / system
+  repo: "{{ omit }}"
+  value: 'yourName'
+- name: 'user.email'
+  scope: global
+  repo: "{{ omit }}"
+  value: 'yourEmail'
+# - name: 'http.sslVerify'    # <-- u can create more if u want.
+#   scope: global
+#   repo: "{{ omit }}"
+#   value: false
