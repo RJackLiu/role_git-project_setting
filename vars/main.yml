@@ -2,4 +2,4 @@
 # vars file for role_git-project_setting
 project_folder_path_in_role: ""
 project_folder_path_n_in_role: ""
-folder_create_force: 'yes'
+folder_create_force: no

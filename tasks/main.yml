@@ -2,22 +2,22 @@
 # tasks file for role_git-project_setting
 - block:
   
-  - name: "[{{ role_id }} - 001x01] To check project folder is existed(incl. role).[R]{{ ansible_role_names }}[T][main]"
-    state:
+  - name: "[{{ role_id }} - 001.01] To check project folder is existed(incl. role).[R]{{ ansible_role_names }}[T][main]"
+    stat:
       path: "{{ item }}"
-      register: "project_folder_state-001x01"
-    loop: "{{ project_folder_path_in_role }}"
+    register: "project_folder_stat_00101"
+    loop: "{{ project_folder_path_in_role | list }}"
   
-  - name: "[{{ role_id }} - 001x02] To check project folder is existed.[R]{{ ansible_role_names }}[T][main]"
-    state:
+  - name: "[{{ role_id }} - 001.02] To check project folder is existed.[R]{{ ansible_role_names }}[T][main]"
+    stat:
       path: "{{ item }}"
-      register: "project_folder_state-001x02"
-    loop: "{{ project_folder_path_no_in_role }}"
+    register: "project_folder_stat_00102"
+    loop: "{{ project_folder_path_n_in_role | list }}"
 
   - name: "[{{ role_id }} - 002] REJECT - folder existed and force variable missed.[R]{{ ansible_role_names }}[T][main]"
     fail:
       msg: "folder exited: {{ item }}"
-    when: item.isdir || folder_create_force
+    when: item.stat.isdir and ! folder_create_force
     loop:
-    - project_folder_state-001x01
-    - project_folder_state-001x02
+    - "{{ project_folder_stat_00101.results }}"
+    - "{{ project_folder_stat_00102.results }}"
