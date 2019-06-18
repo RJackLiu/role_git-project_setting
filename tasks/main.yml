@@ -16,8 +16,6 @@
 
   - name: "[{{ role_id }} - 002] REJECT - folder existed and force variable missed.[R]{{ ansible_role_names }}[T][main]"
     fail:
-      msg: "folder exited: {{ item }}"
-    when: item.stat.isdir and ! folder_create_force
-    loop:
-    - "{{ project_folder_stat_00101.results }}"
-    - "{{ project_folder_stat_00102.results }}"
+      msg: "folder exited: {{ item.item }}"
+    when: item.exists and ! folder_create_force
+    loop: "{{ project_folder_stat_00101.results }} + {{ project_folder_stat_00102.results }}"
