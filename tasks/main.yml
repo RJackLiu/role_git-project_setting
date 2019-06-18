@@ -1,21 +1,30 @@
 ---
 # tasks file for role_git-project_setting
 - block:
-  
-  - name: "[{{ role_id }} - 001.01] To check project folder is existed(incl. role).[R]{{ ansible_role_names }}[T][main]"
+  - name: "({{ role_id }} - 001.01) To check project path is existed(incl. ansible role)."
     stat:
       path: "{{ item }}"
     register: "project_folder_stat_00101"
     loop: "{{ project_folder_path_in_role | list }}"
   
-  - name: "[{{ role_id }} - 001.02] To check project folder is existed.[R]{{ ansible_role_names }}[T][main]"
+  - name: "({{ role_id }} - 001.02) To check project path is existed."
     stat:
       path: "{{ item }}"
     register: "project_folder_stat_00102"
     loop: "{{ project_folder_path_n_in_role | list }}"
 
-  - name: "[{{ role_id }} - 002] REJECT - folder existed and force variable missed.[R]{{ ansible_role_names }}[T][main]"
+  - name: "({{ role_id }} - 002) REJECT: folder existed and force variable is false."
     fail:
       msg: "folder exited: {{ item.item }}"
-    when: item.exists and ! folder_create_force
+    when: item.stat.exists and not folder_create_force
     loop: "{{ project_folder_stat_00101.results }} + {{ project_folder_stat_00102.results }}"
+  tags: check_path_existed
+
+- block: 
+  - name: "({{ role_id }} - 003) To initialize ansible role."
+    shell: ansible-galaxy init {{ item }} --force
+    loop: "{{ project_folder_path_in_role }}"
+  tags: create_ansible_role
+
+- block:
+  - name: "({{ role_id }} - 004) To check GIT remote project existed." 
