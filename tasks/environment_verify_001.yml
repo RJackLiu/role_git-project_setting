@@ -34,12 +34,12 @@
           list_all: yes
           repo: "{{ item.path }}"
       loop: "{{ project_folder_path_in_role | list }} + {{ project_folder_path_n_in_role | list }}"
-      register: "git_config_stat_00104"
+      register: "git_config_stat_00105"
 
     - name: "({{ ROLE_ID }} - 001.06) To show local GIT config pre-changed status." 
       debug:
           msg: "{{ item }}"
-      loop: "{{ git_config_stat_00104 }}"
+      loop: "{{ git_config_stat_00105 | list }}"
   tags: 
     - pre_check_git_config
     - environment_verify
