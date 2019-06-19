@@ -38,8 +38,7 @@
 
     - name: "({{ ROLE_ID }} - 001.06) To show local GIT config pre-changed status." 
       debug:
-          msg: "{{ item }}"
-      loop: "{{ git_config_stat_00105 | list }}"
+          msg: "{{ git_config_stat_00105 }}"
   tags: 
     - pre_check_git_config
     - environment_verify
