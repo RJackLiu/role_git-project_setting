@@ -18,7 +18,9 @@
           msg: "folder exited: {{ item.item }}"
       when: item.stat.exists and not folder_create_force
       loop: "{{ project_folder_stat_00101.results }} + {{ project_folder_stat_00102.results }}"
-  tags: check_project_path_existed
+  tags: 
+    - check_project_path_existed
+    - environment_verify
 
 - block:
     - name: "({{ ROLE_ID }} - 001.04) To check local GIT config pre-changed status." 
@@ -32,4 +34,6 @@
       debug:
           msg: "{{ item }}"
       loop: "{{ git_config_stat_00104 }}"
-  tags: pre_check_git_config
+  tags: 
+    - pre_check_git_config
+    - environment_verify
