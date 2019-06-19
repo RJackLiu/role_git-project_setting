@@ -1,5 +1,3 @@
 ---
 # defaults file for role_git-project_setting
-role_id: '0x01'
-environment_verify: true
-role_init: true
+ROLE_ID: '0x01'

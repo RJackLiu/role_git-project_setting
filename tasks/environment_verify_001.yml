@@ -1,35 +1,35 @@
 - block:
-  - name: "({{ role_id }} - 001.01) To check project path is existed(incl. ansible role)."
-    stat:
-      path: "{{ item.path }}"
-    register: "project_folder_stat_00101"
-    loop: "{{ project_folder_path_in_role | list }}"
-    when: project_folder_path_in_role | length > 0
+    - name: "({{ ROLE_ID }} - 001.01) To check project path is existed(incl. ansible role)."
+      stat:
+          path: "{{ item.path }}"
+      register: "project_folder_stat_00101"
+      loop: "{{ project_folder_path_in_role | list }}"
+      when: project_folder_path_in_role | length > 0
   
-  - name: "({{ role_id }} - 001.02) To check project path is existed."
-    stat:
-      path: "{{ item.path }}"
-    register: "project_folder_stat_00102"
-    loop: "{{ project_folder_path_n_in_role | list }}"
-    when: project_folder_path_n_in_role | length > 0
+    - name: "({{ ROLE_ID }} - 001.02) To check project path is existed."
+      stat:
+          path: "{{ item.path }}"
+      register: "project_folder_stat_00102"
+      loop: "{{ project_folder_path_n_in_role | list }}"
+      when: project_folder_path_n_in_role | length > 0
 
-  - name: "({{ role_id }} - 001.03) REJECT: folder existed and force variable is false."
-    fail:
-      msg: "folder exited: {{ item.item }}"
-    when: item.stat.exists and not folder_create_force
-    loop: "{{ project_folder_stat_00101.results }} + {{ project_folder_stat_00102.results }}"
+    - name: "({{ ROLE_ID }} - 001.03) REJECT: folder existed and force variable is false."
+      fail:
+          msg: "folder exited: {{ item.item }}"
+      when: item.stat.exists and not folder_create_force
+      loop: "{{ project_folder_stat_00101.results }} + {{ project_folder_stat_00102.results }}"
   tags: check_project_path_existed
 
 - block:
-  - name: "({{ role_id }} - 001.04) To check local GIT config pre-changed status." 
-    git_config:
-      list_all: yes
-      repo: "{{ item.path }}"
-    loop: "{{ project_folder_path_in_role | list }} + {{ project_folder_path_n_in_role | list }}"
-    register: "git_config_stat_00104"
+    - name: "({{ ROLE_ID }} - 001.04) To check local GIT config pre-changed status." 
+      git_config:
+          list_all: yes
+          repo: "{{ item.path }}"
+      loop: "{{ project_folder_path_in_role | list }} + {{ project_folder_path_n_in_role | list }}"
+      register: "git_config_stat_00104"
 
-  - name: "({{ role_id }} - 001.05) To show local GIT config pre-changed status." 
-    debug:
-      msg: "{{ item }}"
-    loop: "{{ git_config_stat_00104 }}"
+    - name: "({{ ROLE_ID }} - 001.05) To show local GIT config pre-changed status." 
+      debug:
+          msg: "{{ item }}"
+      loop: "{{ git_config_stat_00104 }}"
   tags: pre_check_git_config
