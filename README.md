@@ -30,7 +30,7 @@ none
 
 Example Playbook
 ----------------
-
+    
 ---
 - hosts: all
   gather_facts: no
