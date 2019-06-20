@@ -49,6 +49,7 @@
       loop: "{{ project_sync_push }}"
       when: project_sync_push | length > 0
       run_once: true
+      no_log: true
 
     - name: "({{ ROLE_ID }} - 003.06) To clone from remote git repository."
       git:
