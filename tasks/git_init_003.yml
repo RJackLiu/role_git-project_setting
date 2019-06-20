@@ -36,14 +36,12 @@
           git add .
           git commit -m "Ansible Initialized"
       loop: "{{ project_n_sync }} + {{ project_sync_push }}"
+      when: (project_n_sync + project_sync_push) | length > 0
       ignore_errors: yes
-
-    - pause:
-          seconds: 10
 
     - name: "({{ ROLE_ID }} - 003.05) To push local project in remote repository."
       expect:
-          command: /bin/bash -c "git remote add origin {{ item.url }} || git push -u origin master"
+          command: /bin/bash -c "git remote add origin {{ item.url }} && git push -u origin master"
           responses:
               Username for: "{{ github_username }}"
               Password for: "{{ github_password }}"
