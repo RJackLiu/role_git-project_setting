@@ -38,6 +38,9 @@
       loop: "{{ project_n_sync }} + {{ project_sync_push }}"
       ignore_errors: yes
 
+    - pause:
+          second: 10
+
     - name: "({{ ROLE_ID }} - 003.05) To push local project in remote repository."
       expect:
           command: /bin/bash -c "git remote add origin {{ item.url }} || git push -u origin master"
@@ -47,6 +50,7 @@
           chdir: "{{ item.path }}"
       loop: "{{ project_sync_push }}"
       when: project_sync_push | length > 0
+      run_once: true
 
     - name: "({{ ROLE_ID }} - 003.06) To clone from remote git repository."
       git:
