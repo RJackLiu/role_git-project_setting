@@ -4,7 +4,7 @@
       shell: |
           mkdir -p {{ item.path | regex_replace('(.*)/.*','\\1') }}
           cd {{ item.path | regex_replace('(.*)/.*','\\1') }}
-          ansible-galaxy init {{ (item.path).filter('/')[-1] }} --force
+          ansible-galaxy init {{ (item.path).split('/')[-1] }} --force
       loop: "{{ project_folder_path_in_role | list }}"
   tags: 
     - create_ansible_role
