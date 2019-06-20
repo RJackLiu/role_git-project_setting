@@ -7,9 +7,9 @@ role_id: '0x01'
 Requirements
 ------------
 
-Packages on managed nodes:
-- yum (option)
-- expect (if need to push local repository in Git server)
+Packages on control nodes:
+- git 
+- ansible
 
 
 Role Variables
