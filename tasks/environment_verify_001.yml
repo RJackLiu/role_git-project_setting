@@ -53,6 +53,7 @@
           name: "{{ item }}"
           state: present
       loop: "{{ yum_packages | list }}"
+      become: true
 
   tags: 
     - yum_install
