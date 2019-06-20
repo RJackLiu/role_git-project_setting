@@ -16,38 +16,38 @@
   block:
     - name: "({{ ROLE_ID }} - 003.02) To restructure git initial type and in role list."
       set_fact: 
-          project_n_sync: "{{ (project_n_sync + [item]) if (not item.remote_sync) else project_n_sync }}"
-          project_sync_push: "{{ (project_sync_push + [item]) if (item.remote_sync and not item.git_clone | default(false)) else project_sync_push }}"
-      loop: "{{ project_folder_path_in_role | list }}"
+          repo_n_sync: "{{ (repo_n_sync + [item]) if (not item.remote_sync) else repo_n_sync }}"
+          repo_sync_push: "{{ (repo_sync_push + [item]) if (item.remote_sync and not item.git_clone | default(false)) else repo_sync_push }}"
+      loop: "{{ repo_folder_path_in_role | list }}"
 
     - name: "({{ ROLE_ID }} - 003.03) To restructure git initial type and not in role list."
       set_fact: 
-          project_n_sync: "{{ (project_n_sync + [item]) if (not item.remote_sync) else project_n_sync }}"
-          project_sync_clone: "{{ (project_sync_clone + [item]) if (item.remote_sync and item.git_clone | default(false)) else project_sync_clone }}"
-          project_sync_push: "{{ (project_sync_push + [item]) if (item.remote_sync and not item.git_clone | default(false)) else project_sync_push }}"
-      loop: "{{ project_folder_path_n_in_role | list }}"
+          repo_n_sync: "{{ (repo_n_sync + [item]) if (not item.remote_sync) else repo_n_sync }}"
+          repo_sync_clone: "{{ (repo_sync_clone + [item]) if (item.remote_sync and item.git_clone | default(false)) else repo_sync_clone }}"
+          repo_sync_push: "{{ (repo_sync_push + [item]) if (item.remote_sync and not item.git_clone | default(false)) else repo_sync_push }}"
+      loop: "{{ repo_folder_path_n_in_role | list }}"
 
 
-    - name: "({{ ROLE_ID }} - 003.04) To initialize local git project."
+    - name: "({{ ROLE_ID }} - 003.04) To initialize local git repo."
       shell: |
           git init {{ item.path }}
           cd {{ item.path }}
           touch note.ansibleCreated
           git add .
           git commit -m "Ansible Initialized"
-      loop: "{{ project_n_sync }} + {{ project_sync_push }}"
-      when: (project_n_sync + project_sync_push) | length > 0
+      loop: "{{ repo_n_sync }} + {{ repo_sync_push }}"
+      when: (repo_n_sync + repo_sync_push) | length > 0
       ignore_errors: yes
 
-    - name: "({{ ROLE_ID }} - 003.05) To push local project in remote repository."
+    - name: "({{ ROLE_ID }} - 003.05) To push local repo in remote repository."
       expect:
           command: /bin/bash -c "git remote add origin {{ item.url }} && git push -u origin master"
           responses:
               Username for: "{{ github_username }}"
               Password for: "{{ github_password }}"
           chdir: "{{ item.path }}"
-      loop: "{{ project_sync_push }}"
-      when: project_sync_push | length > 0
+      loop: "{{ repo_sync_push }}"
+      when: repo_sync_push | length > 0
       run_once: true
       no_log: true
 
@@ -56,8 +56,8 @@
           repo: "{{ item.url }}"
           dest: "{{ item.path }}"
           version: "{{ item.version | default('HEAD') }}"
-      loop: "{{ project_sync_clone }}"
-      when: project_sync_clone | length > 0
+      loop: "{{ repo_sync_clone }}"
+      when: repo_sync_clone | length > 0
   tags: 
     - git_initialize
     - git_init

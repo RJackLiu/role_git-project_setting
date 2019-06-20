@@ -5,6 +5,6 @@
           mkdir -p {{ item.path | regex_replace('^(.*)/.+$','\1') }}
           cd {{ item.path | regex_replace('^(.*)/.+$','\1') }}
           ansible-galaxy init {{ (item.path).split('/')[-1] }} --force
-      loop: "{{ project_folder_path_in_role | list }}"
+      loop: "{{ repo_folder_path_in_role | list }}"
   tags: 
     - role_init

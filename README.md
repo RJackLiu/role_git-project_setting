@@ -36,18 +36,18 @@ Example Playbook
   gather_facts: no
   become: no
   roles:
-    - role: role_git-project_setting
+    - role: role_git-repo_setting
       github_username: ''
       github_password: ''
-      project_folder_path_n_in_role:
-        - path: /home/{{ ansible_user }}/git/project01
+      repo_folder_path_n_in_role:
+        - path: /home/{{ ansible_user }}/git/repo01
           remote_sync: false
-          url: 'https://github.com/owner/yourPojectName02.git' 
+          url: 'https://github.com/owner/yourRepoName02.git' 
           git_clone: true
-      project_folder_path_n_in_role:
-        - path: /home/{{ ansible_user }}/git/project01
+      repo_folder_path_n_in_role:
+        - path: /home/{{ ansible_user }}/git/repo01
           remote_sync: false
-          url: 'https://github.com/owner/yourPojectName02.git' 
+          url: 'https://github.com/owner/yourRepoName02.git' 
           git_clone: true
       git_configuration:
         - name: 'user.name'

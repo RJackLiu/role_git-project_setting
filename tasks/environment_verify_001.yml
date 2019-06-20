@@ -1,32 +1,32 @@
-- name: "({{ ROLE_ID }} - 001.01-04) tag: check_project_path_existed"
+- name: "({{ ROLE_ID }} - 001.01-04) tag: check_repo_path_existed"
   block:
-    - name: "({{ ROLE_ID }} - 001.01) To check project path is existed(incl. ansible role)."
+    - name: "({{ ROLE_ID }} - 001.01) To check repo path is existed(incl. ansible role)."
       stat:
           path: "{{ item.path }}"
-      register: "project_folder_stat_00101"
-      loop: "{{ project_folder_path_in_role | list }}"
-      when: project_folder_path_in_role | length > 0
+      register: "repo_folder_stat_00101"
+      loop: "{{ repo_folder_path_in_role | list }}"
+      when: repo_folder_path_in_role | length > 0
   
-    - name: "({{ ROLE_ID }} - 001.02) To check project path is existed."
+    - name: "({{ ROLE_ID }} - 001.02) To check repo path is existed."
       stat:
           path: "{{ item.path }}"
-      register: "project_folder_stat_00102"
-      loop: "{{ project_folder_path_n_in_role | list }}"
-      when: project_folder_path_n_in_role | length > 0
+      register: "repo_folder_stat_00102"
+      loop: "{{ repo_folder_path_n_in_role | list }}"
+      when: repo_folder_path_n_in_role | length > 0
 
     - name: "({{ ROLE_ID }} - 001.03) REJECT: folder existed and force variable is false."
       fail:
           msg: "folder exited: {{ item.item.path }}"
       when: item.stat.exists and not folder_create_force
-      loop: "{{ project_folder_stat_00101.results }} + {{ project_folder_stat_00102.results }}"
+      loop: "{{ repo_folder_stat_00101.results }} + {{ repo_folder_stat_00102.results }}"
 
     - name: "({{ ROLE_ID }} - 001.04) WARNING: folder existed and force variable is true."
       debug:
           msg: "folder exited: {{ item.item }}"
       when: item.stat.exists and folder_create_force
-      loop: "{{ project_folder_stat_00101.results }} + {{ project_folder_stat_00102.results }}"
+      loop: "{{ repo_folder_stat_00101.results }} + {{ repo_folder_stat_00102.results }}"
   tags: 
-    - check_project_path_existed
+    - check_repo_path_existed
     - environment_verify
 
 - name: "({{ ROLE_ID }} - 001.05-06) tag: pre_check_git_config"
@@ -35,7 +35,7 @@
       git_config:
           list_all: yes
           repo: "{{ item.path }}"
-      loop: "{{ project_folder_path_in_role | list }} + {{ project_folder_path_n_in_role | list }}"
+      loop: "{{ repo_folder_path_in_role | list }} + {{ repo_folder_path_n_in_role | list }}"
       register: "git_config_stat_00105"
 
     - name: "({{ ROLE_ID }} - 001.06) To show local GIT config pre-changed status." 

@@ -1,6 +1,6 @@
 ---
 # defaults file for role_git-repo_setting
 ROLE_ID: '0x01'
-project_n_sync: []
-project_sync_clone: []
-project_sync_push: []
+repo_n_sync: []
+repo_sync_clone: []
+repo_sync_push: []
