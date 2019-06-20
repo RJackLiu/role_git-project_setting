@@ -45,7 +45,6 @@
               Username for: "{{ github_username }}"
               Password for: "{{ github_password }}"
           chdir: "{{ item.path }}"
-      no_log: true
       loop: "{{ project_sync_push }}"
       when: project_sync_push | length > 0
 
