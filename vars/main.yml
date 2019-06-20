@@ -1,5 +1,5 @@
 ---
-# vars file for role_git-project_setting
+# vars file for role_git-repo_setting
 
 # if true, ansible will cover project paths whether is existed or not.
 folder_create_force: false

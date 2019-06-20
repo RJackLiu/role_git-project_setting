@@ -1,9 +1,9 @@
 ---
-# tasks file for role_git-project_setting
+# tasks file for role_git-repo_setting
 - include_tasks: environment_verify_001.yml
   tags: 
     - environment_verify
-    - check_project_path_existed
+    - check_repo_path_existed
     - pre_check_git_config
   static: no
 

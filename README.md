@@ -1,7 +1,7 @@
 Role Name
 =========
 ```
-role_git-project_setting
+role_git-repo_setting
 ROLE_ID: '0x01'
 ```
 Requirements
