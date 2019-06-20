@@ -1,7 +1,10 @@
 - name: "({{ ROLE_ID }} - 002.01) tag: create_ansible_role"
   block:
     - name: "({{ ROLE_ID }} - 002.01) To initialize ansible role."
-      shell: ansible-galaxy init {{ item.path }} --force
+      shell: |
+          mkdir -p {{ item.path | regex_replace('(.*)/.*','\\1') }}
+          cd {{ item.path | regex_replace('(.*)/.*','\\1') }}
+          ansible-galaxy init {{ (item.path).filter('/')[-1] }} --force
       loop: "{{ project_folder_path_in_role | list }}"
   tags: 
     - create_ansible_role

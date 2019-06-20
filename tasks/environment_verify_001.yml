@@ -46,9 +46,9 @@
     - pre_check_git_config
     - environment_verify
 
-- name: "({{ ROLE_ID }} - 001.05-06) tag: yum install"
+- name: "({{ ROLE_ID }} - 001.07) tag: yum install"
   block:
-    - name: "({{ ROLE_ID }} - 001.05) With yum install required packages." 
+    - name: "({{ ROLE_ID }} - 001.07) With yum install required packages." 
       yum:
           name: "{{ item }}"
           state: present

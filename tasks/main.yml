@@ -4,6 +4,7 @@
   tags: 
     - environment_verify
     - check_project_path_existed
+    - yum_install
     - pre_check_git_config
   static: no
 
@@ -16,5 +17,6 @@
 - include_tasks: git_init_003.yml
   tags: 
     - git_configure
+    - git_initialize
     - git_init
   static: no
