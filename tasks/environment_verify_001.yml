@@ -45,16 +45,3 @@
   tags: 
     - pre_check_git_config
     - environment_verify
-
-- name: "({{ ROLE_ID }} - 001.07) tag: yum install"
-  block:
-    - name: "({{ ROLE_ID }} - 001.07) With yum install required packages." 
-      yum:
-          name: "{{ item }}"
-          state: present
-      loop: "{{ yum_packages | list }}"
-      become: true
-
-  tags: 
-    - yum_install
-    - environment_verify

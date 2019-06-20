@@ -7,5 +7,4 @@
           ansible-galaxy init {{ (item.path).split('/')[-1] }} --force
       loop: "{{ project_folder_path_in_role | list }}"
   tags: 
-    - create_ansible_role
     - role_init

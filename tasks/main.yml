@@ -4,19 +4,17 @@
   tags: 
     - environment_verify
     - check_project_path_existed
-    - yum_install
     - pre_check_git_config
   static: no
 
 - include_tasks: role_init_002.yml
   tags: 
     - role_init
-    - create_ansible_role
   static: no
 
 - include_tasks: git_init_003.yml
   tags: 
+    - git_init
     - git_configure
     - git_initialize
-    - git_init
   static: no
