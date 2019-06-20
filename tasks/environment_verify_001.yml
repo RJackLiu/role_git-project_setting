@@ -16,7 +16,7 @@
 
     - name: "({{ ROLE_ID }} - 001.03) REJECT: folder existed and force variable is false."
       fail:
-          msg: "folder exited: {{ item.item }}"
+          msg: "folder exited: {{ item.item.path }}"
       when: item.stat.exists and not folder_create_force
       loop: "{{ project_folder_stat_00101.results }} + {{ project_folder_stat_00102.results }}"
 
