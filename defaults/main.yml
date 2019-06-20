@@ -1,2 +1,6 @@
 ---
 # defaults file for role_git-project_setting
+ROLE_ID: '0x01'
+project_n_sync: []
+project_sync_clone: []
+project_sync_push: []

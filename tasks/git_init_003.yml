@@ -1,0 +1,63 @@
+- name: "({{ ROLE_ID }} - 003.01) tag: git_configure"
+  block:
+    - name: "({{ ROLE_ID }} - 003.01) To configure git config."
+      git_config: 
+         name: "{{ item.name }}"
+         scope: "{{ item.scope }}"
+         repo: "{{ item.repo | default(omit) }}"
+         state: "{{ item.state | default(omit) }}"
+         value: "{{ item.value }}"
+      loop: "{{ git_configuration | list }}"
+  tags: 
+    - git_configure
+    - git_init
+
+- name: "({{ ROLE_ID }} - 003.02-06) tag: git_initialize"
+  block:
+    - name: "({{ ROLE_ID }} - 003.02) To restructure git initial type and in role list."
+      set_fact: 
+          project_n_sync: "{{ (project_n_sync + [item]) if (not item.remote_sync) else project_n_sync }}"
+          project_sync_push: "{{ (project_sync_push + [item]) if (item.remote_sync and not item.git_clone | default(false)) else project_sync_push }}"
+      loop: "{{ project_folder_path_in_role | list }}"
+
+    - name: "({{ ROLE_ID }} - 003.03) To restructure git initial type and not in role list."
+      set_fact: 
+          project_n_sync: "{{ (project_n_sync + [item]) if (not item.remote_sync) else project_n_sync }}"
+          project_sync_clone: "{{ (project_sync_clone + [item]) if (item.remote_sync and item.git_clone | default(false)) else project_sync_clone }}"
+          project_sync_push: "{{ (project_sync_push + [item]) if (item.remote_sync and not item.git_clone | default(false)) else project_sync_push }}"
+      loop: "{{ project_folder_path_n_in_role | list }}"
+
+
+    - name: "({{ ROLE_ID }} - 003.04) To initialize local git project."
+      shell: |
+          git init {{ item.path }}
+          cd {{ item.path }}
+          touch note.ansibleCreated
+          git add .
+          git commit -m "Ansible Initialized"
+      loop: "{{ project_n_sync }} + {{ project_sync_push }}"
+      when: (project_n_sync + project_sync_push) | length > 0
+      ignore_errors: yes
+
+    - name: "({{ ROLE_ID }} - 003.05) To push local project in remote repository."
+      expect:
+          command: /bin/bash -c "git remote add origin {{ item.url }} && git push -u origin master"
+          responses:
+              Username for: "{{ github_username }}"
+              Password for: "{{ github_password }}"
+          chdir: "{{ item.path }}"
+      loop: "{{ project_sync_push }}"
+      when: project_sync_push | length > 0
+      run_once: true
+      no_log: true
+
+    - name: "({{ ROLE_ID }} - 003.06) To clone from remote git repository."
+      git:
+          repo: "{{ item.url }}"
+          dest: "{{ item.path }}"
+          version: "{{ item.version | default('HEAD') }}"
+      loop: "{{ project_sync_clone }}"
+      when: project_sync_clone | length > 0
+  tags: 
+    - git_initialize
+    - git_init
