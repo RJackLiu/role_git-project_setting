@@ -39,7 +39,7 @@
       ignore_errors: yes
 
     - pause:
-          second: 10
+          seconds: 10
 
     - name: "({{ ROLE_ID }} - 003.05) To push local project in remote repository."
       expect:
