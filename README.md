@@ -15,12 +15,12 @@ Packages on control nodes:
 Role Variables
 --------------
 
-folder_create_force: boolen
-github_username: string
-github_password: string
-project_folder_path_in_role: dict. list
-project_folder_path_n_in_role: dict. list
-git_configuration: dict. list
+folder_create_force: boolen \n
+github_username: string \n
+github_password: string \n
+project_folder_path_in_role: dict. list \n
+project_folder_path_n_in_role: dict. list \n
+git_configuration: dict. list \n
 
 
 Dependencies
