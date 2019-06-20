@@ -4,22 +4,47 @@
       git_config: 
          name: "{{ item.name }}"
          scope: "{{ item.scope }}"
-         repo: "{{ item.repo }}"
+         repo: "{{ item.repo | default(omit) }}"
+         state: "{{ item.state | default(omit) }}"
          value: "{{ item.value }}"
       loop: "{{ git_configuration | list }}"
   tags: 
     - git_configure
     - git_init
 
-- name: "({{ ROLE_ID }} - 003.02) tag: git_configure"
+- name: "({{ ROLE_ID }} - 003.02-05) tag: git_initialize"
   block:
-    - name: "({{ ROLE_ID }} - 003.02) To configure git config."
-      git: 
-         name: "{{ item.name }}"
-         scope: "{{ item.scope }}"
-         repo: "{{ item.repo }}"
-         value: "{{ item.value }}"
-      loop: "{{ git_configuration | list }}"
+    - name: "({{ ROLE_ID }} - 003.02) To restructure 'remote_sync: false' list."
+      set_fact: 
+          project_n_sync: "{{ (project_n_sync + item) if (not item.remote_sync) else project_n_sync }}"
+          project_sync_clone: "{{ (project_sync_clone + item) if (item.remote_sync and item.git_clone | default(false)) else project_n_sync }}"
+          project_sync_push: "{{ (project_sync_push + item) if (item.remote_sync and not item.git_clone | default(false)) else project_n_sync }}"
+      loop: "{{ project_folder_path_in_role | list }} + {{ project_folder_path_n_in_role | list }}"
+
+
+    - name: "({{ ROLE_ID }} - 003.03) To initialize local git project."
+      shell: 
+          git init {{ item.path }}
+          cd {{ item.path }}
+          git add .
+          git commit -m "Ansible Initialized"
+      loop: "{{ project_n_sync }}"
+
+    - name: "({{ ROLE_ID }} - 003.04) To push local project in remote repository."
+      expect:
+          command: git remote add origin {{ item.url }} && git push -u origin master
+          responses:
+              Username for: "{{ github_username }}"
+              Password for: "{{ github_password }}"
+      no_log: true
+      loop: "{{ project_sync_push }}"
+
+    - name: "({{ ROLE_ID }} - 003.05) To clone from remote git repository."
+      git:
+          repo: "{{ item.url }}"
+          dest: "{{ item.path }}"
+          version: "{{ item.version }}"
+      loop: "{{ project_sync_clone }}"
   tags: 
-    - git_configure
+    - git_initialize
     - git_init

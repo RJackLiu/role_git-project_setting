@@ -4,19 +4,32 @@
 # if true, ansible will cover project paths whether is existed or not.
 folder_create_force: false
 
+yum_packages:
+  - git
+  - expect
+
+github_username: ''
+github_password: ''
+
 # project_folder_path_in_role:    # change contents or replace with [].
 #   - path: '/path/to/yourProjectName01'
 #     remote_sync: false          # if false, "url, git_clone" can be omitted or ignored.
 #     url: 'https://github.com/owner/yourPojectName01.git'
+#     version: HEAD               # Reference Ansible module: git, parameters: version
 #     git_clone: true             # if false, git project will be created by "git init"
 #   - path: '/path/to/yourProjectName02'
 #     url: 'git@github.com:owner/yourProjectName02.git'
+#     version: HEAD
 #     git_clone: true
 # project_folder_path_n_in_role:    # change contents or replace with [].
 #   - path: /path/to/yourProjectName03
-#     url: 'https://github.com/owner/yourPojectName03.git' 
+#     url: 'https://github.com/owner/yourPojectName03.git'
+#     version: HEAD
+#     git_clone: true
 #   - path: /path/to/yourProjectName04
 #     url: 'git@github.com:owner/yourProjectName04.git'
+#     version: HEAD
+#     git_clone: true
 project_folder_path_in_role:    
   - path: /home/{{ ansible_user }}/git/ansibleRole01
     remote_sync: false
