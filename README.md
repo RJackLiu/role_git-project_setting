@@ -18,8 +18,8 @@ Role Variables
 folder_create_force: boolen . 
 github_username: string  
 github_password: string . 
-project_folder_path_in_role: dict. list  
-project_folder_path_n_in_role: dict. list . 
+repo_folder_path_in_role: dict. list  
+repo_folder_path_n_in_role: dict. list . 
 git_configuration: dict. list . 
 
 ```
