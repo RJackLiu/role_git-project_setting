@@ -1,0 +1,25 @@
+- name: "({{ ROLE_ID }} - 003.01) tag: git_configure"
+  block:
+    - name: "({{ ROLE_ID }} - 003.01) To configure git config."
+      git_config: 
+         name: "{{ item.name }}"
+         scope: "{{ item.scope }}"
+         repo: "{{ item.repo }}"
+         value: "{{ item.value }}"
+      loop: "{{ git_configuration | list }}"
+  tags: 
+    - git_configure
+    - git_init
+
+- name: "({{ ROLE_ID }} - 003.02) tag: git_configure"
+  block:
+    - name: "({{ ROLE_ID }} - 003.02) To configure git config."
+      git: 
+         name: "{{ item.name }}"
+         scope: "{{ item.scope }}"
+         repo: "{{ item.repo }}"
+         value: "{{ item.value }}"
+      loop: "{{ git_configuration | list }}"
+  tags: 
+    - git_configure
+    - git_init

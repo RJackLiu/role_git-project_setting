@@ -1,31 +1,53 @@
 ---
 # vars file for role_git-project_setting
-project_folder_path_in_role:           # <-- u should change it or replace with [].
-  - path: '/path/to/yourProjectName01'  
-    url: 'https://github.com/owner/yourPojectName01.git' 
-# - path: '/path/to/yourProjectName02' # <-- u can create more if u want.
-#   url: 'git@github.com:owner/yourProjectName02.git'
 
-project_folder_path_n_in_role:         # <-- u should change it or replace with [].
-  - path: /path/to/yourProjectName03    
-    url: 'https://github.com/owner/yourPojectName03.git' 
-# - path: /path/to/yourProjectName04   # <-- u can create more if u want.
-#   url: 'git@github.com:owner/yourProjectName04.git'
+# if true, ansible will cover project paths whether is existed or not.
+folder_create_force: false
 
-folder_create_force: false    # if true, ansible will cover project paths whether is existed or not.
+# project_folder_path_in_role:    # change contents or replace with [].
+#   - path: '/path/to/yourProjectName01'
+#     remote_sync: false          # if false, "url, git_clone" can be omitted or ignored.
+#     url: 'https://github.com/owner/yourPojectName01.git'
+#     git_clone: true             # if false, git project will be created by "git init"
+#   - path: '/path/to/yourProjectName02'
+#     url: 'git@github.com:owner/yourProjectName02.git'
+#     git_clone: true
+# project_folder_path_n_in_role:    # change contents or replace with [].
+#   - path: /path/to/yourProjectName03
+#     url: 'https://github.com/owner/yourPojectName03.git' 
+#   - path: /path/to/yourProjectName04
+#     url: 'git@github.com:owner/yourProjectName04.git'
+project_folder_path_in_role:    
+  - path: /home/{{ ansible_user }}/git/ansibleRole01
+    remote_sync: false
+    url: 'https://github.com/owner/yourPojectName01.git'
+    git_clone: true
 
-remote_project_sync: true     # if false, git project will not be synchronized with remote repository.
+project_folder_path_n_in_role:
+  - path: /home/{{ ansible_user }}/git/project01
+    remote_sync: false
+    url: 'https://github.com/owner/yourPojectName02.git' 
+    git_clone: true
 
-git_configuration:            # <-- u should change it or replace with [].
+# For git_config module
+# git_configuration:    # change contents or replace with [].
+#   - name: 'user.name'
+#     scope: global    #choices: local / global / system
+#     value: 'yourName'
+#   - name: 'user.email'
+#     scope: global
+#     value: 'yourEmail'
+#   - name: 'http.sslVerify'
+#     scope: global
+#     value: false
+#   - name: 'user.name'
+#     scope: local
+#     repo: '/path/to/yourProjectName01'
+#     value: 'yourName'
+git_configuration:
   - name: 'user.name'
-    scope: global               #choices: local / global / system
-    repo: "{{ omit }}"
-    value: 'yourName'
+    scope: global
+    value: "{{ ansible_user }}"
   - name: 'user.email'
     scope: global
-    repo: "{{ omit }}"
-    value: 'yourEmail'
-# - name: 'http.sslVerify'    # <-- u can create more if u want.
-#   scope: global
-#   repo: "{{ omit }}"
-#   value: false
+    value: "{{ ansible_user }}@{{ inventory_hostname }}"

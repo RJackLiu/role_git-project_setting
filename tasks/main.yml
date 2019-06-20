@@ -13,4 +13,8 @@
     - create_ansible_role
   static: no
 
-
+- include_tasks: git_init_003.yml
+  tags: 
+    - git_configure
+    - git_init
+  static: no

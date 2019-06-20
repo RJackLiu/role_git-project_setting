@@ -1,4 +1,5 @@
-- block:
+- name: "({{ ROLE_ID }} - 001.01-04) tag: check_project_path_existed"
+  block:
     - name: "({{ ROLE_ID }} - 001.01) To check project path is existed(incl. ansible role)."
       stat:
           path: "{{ item.path }}"
@@ -28,7 +29,8 @@
     - check_project_path_existed
     - environment_verify
 
-- block:
+- name: "({{ ROLE_ID }} - 001.05-06) tag: pre_check_git_config"
+  block:
     - name: "({{ ROLE_ID }} - 001.05) To check local GIT config pre-changed status." 
       git_config:
           list_all: yes
