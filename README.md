@@ -43,12 +43,12 @@ Example Playbook
         - path: /home/{{ ansible_user }}/git/repo01
           remote_sync: false
           url: 'https://github.com/owner/yourRepoName02.git' 
-          git_clone: true
+          git_clone: none
       repo_folder_path_n_in_role:
         - path: /home/{{ ansible_user }}/git/repo01
           remote_sync: false
           url: 'https://github.com/owner/yourRepoName02.git' 
-          git_clone: true
+          git_clone: none
       git_configuration:
         - name: 'user.name'
           scope: global
