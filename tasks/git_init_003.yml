@@ -62,7 +62,7 @@
     
     - name: "({{ ROLE_ID }} - 003.07) To clone from remote git private repository."
       expect:
-          command: /bin/bash -c "git clone {{ item.url }}"
+          command: /bin/bash -c "git clone {{ item.url }} -b {{ item.version | default('HEAD') }}"
           responses:
               Username for: "{{ github_username }}"
               Password for: "{{ github_password }}"

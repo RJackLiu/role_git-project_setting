@@ -12,15 +12,18 @@ github_password: ''
 #     remote_sync: false          # if false, "url" can be omitted or ignored.
 #     url: 'https://github.com/owner/yourRepoName01.git'
 #     git_clone: none    # Choices: none / public /private, if none, git repo will be created by "git init"
+#     version: HEAD
 #   - path: '/path/to/yourrepoName02'
 #     remote_sync: false
 #     url: 'git@github.com:owner/yourRepoName02.git'
 #     git_clone: none
+#     version: HEAD
 repo_folder_path_in_role:    
   - path: /home/{{ ansible_user }}/git/ansibleRole01
     remote_sync: false
     url: 'https://github.com/owner/yourRepoName01.git'
     git_clone: none
+    version: HEAD
 
 # repo_folder_path_n_in_role:    # change contents or replace with [].
 #   - path: /path/to/yourrepoName03
@@ -32,11 +35,13 @@ repo_folder_path_in_role:
 #     remote_sync: true
 #     url: 'git@github.com:owner/yourRepoName04.git'
 #     git_clone: public
+#     version: HEAD
 repo_folder_path_n_in_role:
   - path: /home/{{ ansible_user }}/git/repo01
     remote_sync: false
     url: 'https://github.com/owner/yourPojectName02.git' 
     git_clone: none
+    version: HEAD
 
 # For git_config module
 # git_configuration:    # change contents or replace with [].
