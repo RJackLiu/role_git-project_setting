@@ -11,30 +11,32 @@ github_password: ''
 #   - path: '/path/to/yourrepoName01'
 #     remote_sync: false          # if false, "url" can be omitted or ignored.
 #     url: 'https://github.com/owner/yourRepoName01.git'
+#     git_clone: none    # Choices: none / public /private, if none, git repo will be created by "git init"
 #   - path: '/path/to/yourrepoName02'
 #     remote_sync: false
 #     url: 'git@github.com:owner/yourRepoName02.git'
+#     git_clone: none
 repo_folder_path_in_role:    
   - path: /home/{{ ansible_user }}/git/ansibleRole01
     remote_sync: false
     url: 'https://github.com/owner/yourRepoName01.git'
-    git_clone: true
+    git_clone: none
 
 # repo_folder_path_n_in_role:    # change contents or replace with [].
 #   - path: /path/to/yourrepoName03
-#     remote_sync: true             # if false, "url, git_clone" can be omitted or ignored.
+#     remote_sync: true    # if false, "url, git_clone" can be omitted or ignored.
 #     url: 'https://github.com/owner/yourRepoName03.git'
 #     version: HEAD    # Reference Ansible module: git, parameters: version
-#     git_clone: true    # if false, git repo will be created by "git init"
+#     git_clone: public    # Choices: none / public /private, if none, git repo will be created by "git init"
 #   - path: /path/to/yourrepoName04
 #     remote_sync: true
 #     url: 'git@github.com:owner/yourRepoName04.git'
-#     git_clone: false
+#     git_clone: public
 repo_folder_path_n_in_role:
   - path: /home/{{ ansible_user }}/git/repo01
     remote_sync: false
     url: 'https://github.com/owner/yourPojectName02.git' 
-    git_clone: true
+    git_clone: none
 
 # For git_config module
 # git_configuration:    # change contents or replace with [].

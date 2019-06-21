@@ -12,19 +12,20 @@
     - git_configure
     - git_init
 
-- name: "({{ ROLE_ID }} - 003.02-06) tag: git_initialize"
+- name: "({{ ROLE_ID }} - 003.02-07) tag: git_initialize"
   block:
     - name: "({{ ROLE_ID }} - 003.02) To restructure git initial type and in role list."
       set_fact: 
           repo_n_sync: "{{ (repo_n_sync + [item]) if (not item.remote_sync) else repo_n_sync }}"
-          repo_sync_push: "{{ (repo_sync_push + [item]) if (item.remote_sync and not item.git_clone | default(false)) else repo_sync_push }}"
+          repo_sync_push: "{{ (repo_sync_push + [item]) if (item.remote_sync and item.git_clone == 'none'  | default('none')) else repo_sync_push }}"
       loop: "{{ repo_folder_path_in_role | list }}"
 
     - name: "({{ ROLE_ID }} - 003.03) To restructure git initial type and not in role list."
       set_fact: 
           repo_n_sync: "{{ (repo_n_sync + [item]) if (not item.remote_sync) else repo_n_sync }}"
-          repo_sync_clone: "{{ (repo_sync_clone + [item]) if (item.remote_sync and item.git_clone | default(false)) else repo_sync_clone }}"
-          repo_sync_push: "{{ (repo_sync_push + [item]) if (item.remote_sync and not item.git_clone | default(false)) else repo_sync_push }}"
+          repo_sync_clone_pub: "{{ (repo_sync_clone + [item]) if (item.remote_sync and item.git_clone | default('none') == 'public') else repo_sync_clone }}"
+          repo_sync_clone_prv: "{{ (repo_sync_clone + [item]) if (item.remote_sync and item.git_clone | default('none') == 'private') else repo_sync_clone }}"
+          repo_sync_push: "{{ (repo_sync_push + [item]) if (item.remote_sync and item.git_clone == 'none' | default('none')) else repo_sync_push }}"
       loop: "{{ repo_folder_path_n_in_role | list }}"
 
 
@@ -51,13 +52,24 @@
       run_once: true
       no_log: true
 
-    - name: "({{ ROLE_ID }} - 003.06) To clone from remote git repository."
+    - name: "({{ ROLE_ID }} - 003.06) To clone from remote git pubic repository."
       git:
           repo: "{{ item.url }}"
           dest: "{{ item.path }}"
           version: "{{ item.version | default('HEAD') }}"
-      loop: "{{ repo_sync_clone }}"
-      when: repo_sync_clone | length > 0
+      loop: "{{ repo_sync_clone_pub }}"
+      when: repo_sync_clone_pub | length > 0
+    
+    - name: "({{ ROLE_ID }} - 003.07) To clone from remote git private repository."
+      expect:
+          command: /bin/bash -c "git clone {{ item.url }}"
+          responses:
+              Username for: "{{ github_username }}"
+              Password for: "{{ github_password }}"
+          chdir: "{{ item.path }}"
+      loop: "{{ repo_sync_clone_prv }}"
+      when: repo_sync_clone_prv | length > 0
+      no_log: true
   tags: 
     - git_initialize
     - git_init
