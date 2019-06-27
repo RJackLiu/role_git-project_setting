@@ -39,10 +39,10 @@ Example Playbook
     - role: role_git-repo_setting
       github_username: ''
       github_password: ''
-      repo_folder_path_n_in_role:
+      repo_folder_path_in_role:
         - path: /home/{{ ansible_user }}/git/repo01
           remote_sync: false
-          url: 'https://github.com/owner/yourRepoName02.git' 
+          url: 'https://github.com/owner/yourRepoName01.git' 
           git_clone: none
           version: master
       repo_folder_path_n_in_role:
@@ -58,7 +58,20 @@ Example Playbook
         - name: 'user.email'
           scope: global
           value: "{{ ansible_user }}@{{ inventory_hostname }}"
-```        
+```    
+
+Tags
+-------
+```
+- environment_verify
+    - check_repo_path_existed
+    - pre_check_git_config
+- role_init
+- git_init
+    - git_configure
+    - git_initialize
+```
+
 License
 -------
 
