@@ -5,16 +5,13 @@
     - environment_verify
     - check_repo_path_existed
     - pre_check_git_config
-  static: no
 
 - include_tasks: role_init_002.yml
   tags: 
     - role_init
-  static: no
 
 - include_tasks: git_init_003.yml
   tags: 
     - git_init
     - git_configure
     - git_initialize
-  static: no

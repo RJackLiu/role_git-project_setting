@@ -58,7 +58,7 @@
           dest: "{{ item.path }}"
           version: "{{ item.version | default('HEAD') }}"
       loop: "{{ repo_sync_clone_pub }}"
-      when: repo_sync_clone_pub | length > 0
+      when: repo_sync_clone_pub is defined and repo_sync_clone_pub | length > 0
     
     - name: "({{ ROLE_ID }} - 003.07) To clone from remote git private repository."
       expect:
@@ -67,7 +67,7 @@
               Username for: "{{ github_username }}"
               Password for: "{{ github_password }}"
       loop: "{{ repo_sync_clone_prv }}"
-      when: repo_sync_clone_prv | length > 0
+      when: repo_sync_clone_prv is defined and repo_sync_clone_prv | length > 0
       no_log: true
   tags: 
     - git_initialize
