@@ -8,5 +8,10 @@
           cd {{ item.path }}/roles
           ansible-galaxy init {{ (item.path).split('/')[-1] | regex_replace('^play(.*)', 'role\1') }} --force
       loop: "{{ repo_folder_path_in_role | list }}"
+    - name: "({{ ROLE_ID }} - 002.02) To copy ansible.cfg."
+      copy:
+        src: "ansible.cfg"
+        dest: "{{ item.path }}/ansible.cfg"
+      loop: "{{ repo_folder_path_in_role | list }}"
   tags: 
     - role_init
