@@ -2,10 +2,10 @@
   block:
     - name: "({{ ROLE_ID }} - 002.01) To initialize ansible role."
       shell: |
-          mkdir -p {{ item.path | regex_replace('^(.*)/.+$','\1') }}
-          cd {{ item.path | regex_replace('^(.*)/.+$','\1') }}
+          mkdir -p {{ item.path }}
+          cd {{ item.path }}
+          ansible-galaxy init {{ (item.path).split('/')[-1] | regex_replace('^play(.*)', 'role\1') }} --force
           touch playbook.yml
-          ansible-galaxy init {{ (item.path).split('/')[-1] | regex_replace('^play.*', '^role.*') }} --force
       loop: "{{ repo_folder_path_in_role | list }}"
   tags: 
     - role_init
